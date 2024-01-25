@@ -1,7 +1,36 @@
 ---
 import Particle from "../components/Particle.astro"
-
 ---
+
+<script>
+	const title: HTMLElement = document.getElementById("title")!;
+import { Image } from "astro:assets";
+	const glazing = document.getElementById("glazing")
+	const originalTitle = title.innerText;
+	
+
+	let amountChanged = 0;
+	document.addEventListener("keydown", (e) => {
+		const key = e.key.toUpperCase()
+
+		// The letter but green. For checking and replacing
+		const greenText = `<span class="text-green-200">${key}</span>`
+
+		// Make sure title doesn't already contain greenText of key
+		if(!title.innerHTML.match(new RegExp(greenText, "g")) && originalTitle.includes(key)) {
+			title.innerHTML = title.innerHTML.replaceAll(key, greenText)
+			amountChanged = amountChanged + 1
+		}
+
+		// When done, fix title
+		if(amountChanged >= 12) {
+			glazing!.hidden = !glazing!.hidden;
+			title.innerHTML = originalTitle;
+			amountChanged = 0;
+		}
+	})
+</script>
+
 
 <html lang="en">
 	<head>
@@ -9,15 +38,20 @@ import Particle from "../components/Particle.astro"
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>HAPPY BIRTHDAY JACOB</title>
 	</head>
 	<Particle/>
-	<body class="bg-slate-900 flex">
-		<h1 class="
-		from-blue-300  to-blue-600
-		bg-gradient-to-br bg-clip-text
-		text-transparent font-bold text-8xl
-		m-auto mt-20">HAPPY BIRTHDAY JACOB</h1>
+	<body class="bg-slate-900">
+		<div class="flex">
+
+			<h1 id="title" class="
+			from-blue-300  to-blue-600
+			bg-gradient-to-br bg-clip-text
+			text-transparent font-bold text-8xl
+			m-auto mt-20">HAPPY BIRTHDAY JACOB</h1>
+		</div>
+
+		<p id="glazing" hidden class="font-bold text-4xl p-10 text-white">You are so cool and chill and are very nice!!!</p>
 	</body>
 	</html>
 
